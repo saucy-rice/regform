@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/admin",
+      "destination": "https://reg-form-4j2e.onrender.com/admin/",
+      "permanent": true
+    }
+  ]
+}

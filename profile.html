@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold">User Portal</h1>
+            <div class="flex items-center gap-4">
+                <span id="userNameDisplay" class="hidden md:block font-medium"></span>
+                <button 
+                    onclick="logout()" 
+                    class="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition"
+                >
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Welcome Header -->
+        <div class="bg-blue-50 border-l-4 border-blue-600 p-6 mb-8 rounded-lg">
+            <h2 class="text-3xl font-bold text-blue-600 mb-2">Welcome, <span id="userName"></span>!</h2>
+            <p class="text-gray-700">Here's your profile information</p>
+        </div>
+
+        <!-- User Profile Section -->
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white border-2 border-blue-600 rounded-lg shadow-lg p-6 md:p-8 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-blue-600">Your Profile</h3>
+                    <button 
+                        onclick="loadProfile()" 
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm"
+                    >
+                        🔄 Refresh
+                    </button>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingProfile" class="text-center py-8">
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                    <p class="text-gray-600 mt-4">Loading your profile...</p>
+                </div>
+
+                <!-- Profile Content -->
+                <div id="profileContent" class="hidden">
+                    <!-- Personal Information -->
+                    <div class="mb-6">
+                        <h4 class="text-xl font-semibold text-blue-600 mb-4 pb-2 border-b-2 border-blue-200">Personal Information</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-gray-600 font-medium mb-1">Full Name</p>
+                                <p id="fullName" class="text-gray-900 font-semibold text-lg"></p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-gray-600 font-medium mb-1">Email Address</p>
+                                <p id="email" class="text-gray-900 font-semibold"></p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-gray-600 font-medium mb-1">Phone Number</p>
+                                <p id="phone" class="text-gray-900 font-semibold"></p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-gray-600 font-medium mb-1">NIN</p>
+                                <p id="nin" class="text-gray-900 font-semibold"></p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg md:col-span-2">
+                                <p class="text-gray-600 font-medium mb-1">House Address</p>
+                                <p id="address" class="text-gray-900 font-semibold"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bank Information -->
+                    <div class="mb-6">
+                        <h4 class="text-xl font-semibold text-blue-600 mb-4 pb-2 border-b-2 border-blue-200">Bank Information</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-gray-600 font-medium mb-1">Bank Name</p>
+                                <p id="bankName" class="text-gray-900 font-semibold"></p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-gray-600 font-medium mb-1">Account Number</p>
+                                <p id="accountNumber" class="text-gray-900 font-semibold"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next of Kin Information -->
+                    <div class="mb-6">
+                        <h4 class="text-xl font-semibold text-blue-600 mb-4 pb-2 border-b-2 border-blue-200">Next of Kin Information</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-gray-600 font-medium mb-1">Name</p>
+                                <p id="kinName" class="text-gray-900 font-semibold"></p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-gray-600 font-medium mb-1">Phone Number</p>
+                                <p id="kinPhone" class="text-gray-900 font-semibold"></p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg md:col-span-2">
+                                <p class="text-gray-600 font-medium mb-1">Address</p>
+                                <p id="kinAddress" class="text-gray-900 font-semibold"></p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg md:col-span-2">
+                                <p class="text-gray-600 font-medium mb-1">Account Details</p>
+                                <p id="kinAccount" class="text-gray-900 font-semibold"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Section (Only visible for admin users) -->
+            <div id="adminSection" class="hidden">
+
+
+                <!-- All Users List -->
+                <div class="bg-white border-2 border-blue-600 rounded-lg shadow-lg p-6 md:p-8 mb-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold text-blue-600">All Registered Users</h3>
+                        <button 
+                            onclick="loadAllUsers()" 
+                            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                        >
+                            🔄 Refresh
+                        </button>
+                    </div>
+
+                    <div id="loadingUsers" class="hidden text-center py-8">
+                        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                        <p class="text-gray-600 mt-4">Loading users...</p>
+                    </div>
+
+                    <div id="usersList" class="space-y-4">
+                        <!-- Users will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- FINANCIAL LEDGER ADMIN SECTION -->
+                <div class="bg-white border-2 border-purple-600 rounded-lg shadow-lg p-6 md:p-8 mb-8">
+                    <h3 class="text-2xl font-bold text-purple-600 mb-6">💰 Admin: Financial Ledger Management</h3>
+                    
+                    <!-- Ledger Upload Button -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <button 
+                            onclick="showLedgerUploadForm()" 
+                            class="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition flex items-center justify-center"
+                        >
+                            <span class="mr-2">📊</span> Upload Financial Ledger
+                        </button>
+                        <button 
+                            onclick="loadImportHistory()" 
+                            class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition flex items-center justify-center"
+                        >
+                            <span class="mr-2">📜</span> View Import History
+                        </button>
+                    </div>
+
+                    <!-- Ledger Upload Form -->
+                    <div id="ledgerUploadFormSection" class="hidden">
+                        <div class="border-t-2 border-purple-100 pt-6">
+                            <h4 class="text-lg font-semibold text-purple-600 mb-4">Upload Financial Ledger</h4>
+                            
+                            <div class="bg-purple-50 border-l-4 border-purple-600 p-4 mb-4 text-sm">
+                                <p class="text-purple-900 mb-2"><strong>📋 Required Excel columns:</strong></p>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-purple-800">
+                                    <div>• NIN</div>
+                                    <div>• Account Type (SAVINGS/LOAN)</div>
+                                    <div>• Date</div>
+                                    <div>• Debit</div>
+                                    <div>• Credit</div>
+                                    <div>• Description</div>
+                                </div>
+                                <p class="text-purple-900 mt-3"><strong>💡 Note:</strong> Date format should be YYYY-MM-DD or DD/MM/YYYY</p>
+                            </div>
+
+                            <form id="ledgerUploadForm" onsubmit="uploadLedger(event)" class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Select Excel File *</label>
+                                    <input 
+                                        type="file" 
+                                        id="ledgerFileInput" 
+                                        accept=".xlsx,.xls" 
+                                        required 
+                                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-purple-600 file:text-white file:font-semibold hover:file:bg-purple-700"
+                                    >
+                                </div>
+
+                                <div class="flex gap-3">
+                                    <button 
+                                        type="submit" 
+                                        id="ledgerUploadBtn"
+                                        class="flex-1 bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center"
+                                    >
+                                        <span id="ledgerBtnText">📊 Upload Ledger</span>
+                                        <span id="ledgerBtnSpinner" class="hidden ml-2">
+                                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                    <button 
+                                        type="button" 
+                                        onclick="hideLedgerUploadForm()"
+                                        class="px-6 bg-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-400 transition"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+
+                            <div id="ledgerResultsSection" class="hidden mt-6">
+                                <h5 class="font-semibold text-purple-600 mb-3">📊 Ledger Import Results:</h5>
+                                <div id="ledgerResultsContent" class="space-y-3"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Import History -->
+                    <div id="importHistorySection" class="hidden">
+                        <div class="border-t-2 border-purple-100 pt-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-lg font-semibold text-purple-600">Recent Imports</h4>
+                                <button 
+                                    onclick="hideImportHistory()"
+                                    class="text-gray-600 hover:text-gray-800"
+                                >
+                                    ✕ Close
+                                </button>
+                            </div>
+                            
+                            <div id="loadingImportHistory" class="hidden text-center py-8">
+                                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+                            </div>
+
+                            <div id="importHistoryList" class="space-y-3">
+                                <!-- Import history will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FINANCIAL ACCOUNTS & TRANSACTIONS (For all users) -->
+            <div class="bg-white border-2 border-green-600 rounded-lg shadow-lg p-6 md:p-8 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-green-600"> Accounts</h3>
+                    <button 
+                        onclick="loadFinancialData()" 
+                        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm"
+                    >
+                        🔄 Refresh
+                    </button>
+                </div>
+
+                <div id="loadingFinancial" class="text-center py-8">
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+                    <p class="text-gray-600 mt-4">Loading financial data...</p>
+                </div>
+
+                <div id="financialContent" class="hidden">
+                    <!-- Account Balances -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div id="savingsAccount" class="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 rounded-lg p-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="text-lg font-semibold text-green-800">Savings Account</h4>
+                                <span class="text-2xl"></span>
+                            </div>
+                            <p class="text-3xl font-bold text-green-700">₦<span id="savingsBalance">0.00</span></p>
+                            <p class="text-sm text-green-600 mt-2">Available Balance</p>
+                        </div>
+
+                        <div id="loanAccount" class="bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-300 rounded-lg p-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="text-lg font-semibold text-red-800">Loan Account</h4>
+                                <span class="text-2xl">🏦</span>
+                            </div>
+                            <p class="text-3xl font-bold text-red-700">₦<span id="loanBalance">0.00</span></p>
+                            <p class="text-sm text-red-600 mt-2">Outstanding Balance</p>
+                        </div>
+                    </div>
+
+                    <!-- Transaction History -->
+                    <div>
+                        <h4 class="text-xl font-semibold text-green-600 mb-4 pb-2 border-b-2 border-green-200">Transaction History</h4>
+                        
+                        <!-- Filter Tabs -->
+                        <div class="flex gap-2 mb-4">
+                            <button 
+                                onclick="filterTransactions('ALL')" 
+                                id="filterAll"
+                                class="px-4 py-2 rounded-lg font-medium bg-green-600 text-white"
+                            >
+                                All
+                            </button>
+                            <button 
+                                onclick="filterTransactions('SAVINGS')" 
+                                id="filterSavings"
+                                class="px-4 py-2 rounded-lg font-medium bg-gray-200 text-gray-700 hover:bg-gray-300"
+                            >
+                                Savings
+                            </button>
+                            <button 
+                                onclick="filterTransactions('LOAN')" 
+                                id="filterLoan"
+                                class="px-4 py-2 rounded-lg font-medium bg-gray-200 text-gray-700 hover:bg-gray-300"
+                            >
+                                Loan
+                            </button>
+                        </div>
+
+                        <div id="transactionsList" class="space-y-3">
+                            <!-- Transactions will be loaded here -->
+                        </div>
+
+                        <div id="noTransactions" class="hidden text-center py-8 text-gray-500">
+                            <p class="text-lg">No transactions found</p>
+                            <p class="text-sm mt-2">Your transaction history will appear here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="hidden fixed top-4 right-4 bg-white text-blue-600 px-6 py-4 rounded-lg shadow-lg border-2 border-blue-600 z-50 max-w-md">
+            <p class="font-semibold">✓ <span id="successText">Success!</span></p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="hidden fixed top-4 right-4 bg-white text-red-600 px-6 py-4 rounded-lg shadow-lg border-2 border-red-600 z-50 max-w-md">
+            <p class="font-semibold">✗ <span id="errorText">An error occurred</span></p>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://reg-form-4j2e.onrender.com/api';
+        
+        // State management
+        let allTransactions = [];
+        let currentFilter = 'ALL';
+
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            loadProfile();
+            loadFinancialData();
+        });
+
+        // Load user profile from API
+        async function loadProfile() {
+            const token = localStorage.getItem('authToken');
+            const loadingDiv = document.getElementById('loadingProfile');
+            const contentDiv = document.getElementById('profileContent');
+
+            loadingDiv.classList.remove('hidden');
+            contentDiv.classList.add('hidden');
+
+            try {
+                const response = await fetch(`${API_URL}/profile/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    displayProfile(user);
+
+                    if (user.is_admin === true) {
+                        document.getElementById('adminSection').classList.remove('hidden');
+                        loadAllUsers();
+                    }
+                } else if (response.status === 401) {
+                    showMessage('error', 'Session expired. Please login again.');
+                    setTimeout(() => logout(), 2000);
+                } else {
+                    showMessage('error', 'Failed to load profile');
+                }
+            } catch (error) {
+                showMessage('error', 'Network error. Please check if the server is running.');
+                console.error('Profile load error:', error);
+            } finally {
+                loadingDiv.classList.add('hidden');
+                contentDiv.classList.remove('hidden');
+            }
+        }
+
+        // Display profile data
+        function displayProfile(user) {
+            const displayName = `${user.first_name} ${user.surname}`;
+            document.getElementById('userNameDisplay').textContent = displayName;
+            document.getElementById('userName').textContent = displayName;
+
+            document.getElementById('fullName').textContent = 
+                `${user.surname} ${user.first_name} ${user.middle_name || ''}`.trim();
+            document.getElementById('email').textContent = user.email_address || 'N/A';
+            document.getElementById('phone').textContent = user.phone_number || 'N/A';
+            document.getElementById('nin').textContent = user.nin || 'N/A';
+            document.getElementById('address').textContent = user.house_address || 'N/A';
+
+            document.getElementById('bankName').textContent = user.bank_name || 'N/A';
+            document.getElementById('accountNumber').textContent = user.account_number || 'N/A';
+
+            document.getElementById('kinName').textContent = user.next_of_kin_name || 'N/A';
+            document.getElementById('kinPhone').textContent = user.next_of_kin_phone || 'N/A';
+            document.getElementById('kinAddress').textContent = user.next_of_kin_address || 'N/A';
+            document.getElementById('kinAccount').textContent = user.next_of_kin_account_details || 'N/A';
+        }
+
+        // Load all users (admin only)
+        async function loadAllUsers() {
+            const token = localStorage.getItem('authToken');
+            const loadingDiv = document.getElementById('loadingUsers');
+            const usersList = document.getElementById('usersList');
+
+            loadingDiv.classList.remove('hidden');
+
+            try {
+                const response = await fetch(`${API_URL}/users/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+                const users = data.results || data;
+
+                if (users.length === 0) {
+                    usersList.innerHTML = '<p class="text-gray-600 text-center py-8">No users registered yet.</p>';
+                    return;
+                }
+
+                usersList.innerHTML = users.map(user => `
+                    <div class="bg-gray-50 border-2 border-gray-200 rounded-lg p-4 hover:border-blue-400 hover:shadow-md transition">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <p class="text-gray-600 font-medium">Name:</p>
+                                <p class="text-gray-900 font-semibold">${user.surname} ${user.first_name} ${user.middle_name || ''}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600 font-medium">Email:</p>
+                                <p class="text-gray-900 font-semibold">${user.email_address}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600 font-medium">Phone:</p>
+                                <p class="text-gray-900 font-semibold">${user.phone_number}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600 font-medium">NIN:</p>
+                                <p class="text-gray-900 font-semibold">${user.nin}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600 font-medium">Bank:</p>
+                                <p class="text-gray-900 font-semibold">${user.bank_name} - ${user.account_number}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600 font-medium">Next of Kin:</p>
+                                <p class="text-gray-900 font-semibold">${user.next_of_kin_name}</p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                usersList.innerHTML = '<p class="text-red-600 text-center py-8">Error loading users.</p>';
+                console.error('Users load error:', error);
+            } finally {
+                loadingDiv.classList.add('hidden');
+            }
+        }
+
+        // FINANCIAL DATA FUNCTIONS
+        async function loadFinancialData() {
+            const token = localStorage.getItem('authToken');
+            const loadingDiv = document.getElementById('loadingFinancial');
+            const contentDiv = document.getElementById('financialContent');
+
+            loadingDiv.classList.remove('hidden');
+            contentDiv.classList.add('hidden');
+
+            try {
+                const response = await fetch(`${API_URL}/users/my_accounts/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const accounts = await response.json();
+                    displayFinancialData(accounts);
+                } else {
+                    showMessage('error', 'Failed to load financial data');
+                }
+            } catch (error) {
+                showMessage('error', 'Error loading financial data');
+                console.error('Financial data error:', error);
+            } finally {
+                loadingDiv.classList.add('hidden');
+                contentDiv.classList.remove('hidden');
+            }
+        }
+
+        function displayFinancialData(accounts) {
+            // Display account balances
+            const savingsAccount = accounts.find(acc => acc.account_type === 'SAVINGS');
+            const loanAccount = accounts.find(acc => acc.account_type === 'LOAN');
+
+            if (savingsAccount) {
+                document.getElementById('savingsBalance').textContent = 
+                    parseFloat(savingsAccount.current_balance).toLocaleString('en-NG', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+            } else {
+                document.getElementById('savingsAccount').innerHTML = `
+                    <div class="text-center py-4 text-gray-500">
+                        <p>No savings account found</p>
+                    </div>
+                `;
+            }
+
+            if (loanAccount) {
+                document.getElementById('loanBalance').textContent = 
+                    parseFloat(loanAccount.current_balance).toLocaleString('en-NG', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+            } else {
+                document.getElementById('loanAccount').innerHTML = `
+                    <div class="text-center py-4 text-gray-500">
+                        <p>No loan account found</p>
+                    </div>
+                `;
+            }
+
+            // Collect all transactions from all accounts
+            allTransactions = [];
+            accounts.forEach(account => {
+                if (account.recent_transactions) {
+                    account.recent_transactions.forEach(transaction => {
+                        allTransactions.push({
+                            ...transaction,
+                            account_type: account.account_type
+                        });
+                    });
+                }
+            });
+
+            // Sort by date (most recent first)
+            allTransactions.sort((a, b) => 
+                new Date(b.transaction_date) - new Date(a.transaction_date)
+            );
+
+            displayTransactions();
+        }
+
+        function displayTransactions() {
+            const transactionsList = document.getElementById('transactionsList');
+            const noTransactions = document.getElementById('noTransactions');
+
+            let filteredTransactions = allTransactions;
+            if (currentFilter !== 'ALL') {
+                filteredTransactions = allTransactions.filter(t => t.account_type === currentFilter);
+            }
+
+            if (filteredTransactions.length === 0) {
+                transactionsList.innerHTML = '';
+                noTransactions.classList.remove('hidden');
+                return;
+            }
+
+            noTransactions.classList.add('hidden');
+            transactionsList.innerHTML = filteredTransactions.map(transaction => {
+                const isCredit = transaction.transaction_type === 'CREDIT';
+                const accountColor = transaction.account_type === 'SAVINGS' ? 'green' : 'red';
+                const typeColor = isCredit ? 'green' : 'red';
+                
+                const date = new Date(transaction.transaction_date);
+                const formattedDate = date.toLocaleDateString('en-NG', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                return `
+                    <div class="bg-gray-50 border-l-4 border-${accountColor}-500 rounded-lg p-4 hover:shadow-md transition">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="px-2 py-1 rounded text-xs font-semibold bg-${accountColor}-100 text-${accountColor}-700">
+                                        ${transaction.account_type}
+                                    </span>
+                                    <span class="px-2 py-1 rounded text-xs font-semibold bg-${typeColor}-100 text-${typeColor}-700">
+                                        ${transaction.transaction_type}
+                                    </span>
+                                </div>
+                                <p class="text-gray-700 text-sm">${transaction.description || 'No description'}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-bold text-${typeColor}-600">
+                                    ${isCredit ? '+' : '-'}₦${parseFloat(transaction.amount).toLocaleString('en-NG', {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                    })}
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">${formattedDate}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterTransactions(accountType) {
+            currentFilter = accountType;
+            
+            // Update button styles
+            document.getElementById('filterAll').className = 
+                accountType === 'ALL' 
+                    ? 'px-4 py-2 rounded-lg font-medium bg-green-600 text-white'
+                    : 'px-4 py-2 rounded-lg font-medium bg-gray-200 text-gray-700 hover:bg-gray-300';
+            
+            document.getElementById('filterSavings').className = 
+                accountType === 'SAVINGS' 
+                    ? 'px-4 py-2 rounded-lg font-medium bg-green-600 text-white'
+                    : 'px-4 py-2 rounded-lg font-medium bg-gray-200 text-gray-700 hover:bg-gray-300';
+            
+            document.getElementById('filterLoan').className = 
+                accountType === 'LOAN' 
+                    ? 'px-4 py-2 rounded-lg font-medium bg-green-600 text-white'
+                    : 'px-4 py-2 rounded-lg font-medium bg-gray-200 text-gray-700 hover:bg-gray-300';
+
+            displayTransactions();
+        }
+
+        // LEDGER UPLOAD FUNCTIONS (Admin only)
+        function showLedgerUploadForm() {
+            document.getElementById('ledgerUploadFormSection').classList.remove('hidden');
+            document.getElementById('importHistorySection').classList.add('hidden');
+            document.getElementById('ledgerResultsSection').classList.add('hidden');
+        }
+
+        function hideLedgerUploadForm() {
+            document.getElementById('ledgerUploadFormSection').classList.add('hidden');
+            document.getElementById('ledgerUploadForm').reset();
+        }
+
+        async function uploadLedger(e) {
+            e.preventDefault();
+            
+            const token = localStorage.getItem('authToken');
+            const fileInput = document.getElementById('ledgerFileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showMessage('error', 'Please select a file');
+                return;
+            }
+
+            const fileName = file.name.toLowerCase();
+            if (!fileName.endsWith('.xlsx') && !fileName.endsWith('.xls')) {
+                showMessage('error', 'Please upload a valid Excel file (.xlsx or .xls)');
+                return;
+            }
+
+            const uploadBtn = document.getElementById('ledgerUploadBtn');
+            const btnText = document.getElementById('ledgerBtnText');
+            const btnSpinner = document.getElementById('ledgerBtnSpinner');
+            
+            uploadBtn.disabled = true;
+            btnText.textContent = 'Processing...';
+            btnSpinner.classList.remove('hidden');
+            
+            document.getElementById('ledgerResultsSection').classList.add('hidden');
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const response = await fetch(`${API_URL}/users/upload_ledger/`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayLedgerResults(data);
+                    showMessage('success', `Ledger imported! ${data.summary.successful} successful, ${data.summary.failed} failed`);
+                    fileInput.value = '';
+                    
+                    // Refresh financial data for all users
+                    loadFinancialData();
+                } else {
+                    showMessage('error', data.error || 'Failed to import ledger');
+                }
+
+            } catch (error) {
+                showMessage('error', 'Network error. Please check if the server is running.');
+                console.error('Ledger upload error:', error);
+            } finally {
+                uploadBtn.disabled = false;
+                btnText.textContent = '📊 Upload Ledger';
+                btnSpinner.classList.add('hidden');
+            }
+        }
+
+        function displayLedgerResults(data) {
+            const resultsSection = document.getElementById('ledgerResultsSection');
+            const resultsContent = document.getElementById('ledgerResultsContent');
+            
+            resultsSection.classList.remove('hidden');
+            resultsContent.innerHTML = '';
+
+            resultsContent.innerHTML = `
+                <div class="bg-purple-50 border-l-4 border-purple-600 p-4 rounded">
+                    <p class="text-purple-900 font-semibold mb-2">📈 Import Summary</p>
+                    <div class="grid grid-cols-3 gap-3 text-sm">
+                        <div>
+                            <p class="text-purple-600">Total Rows:</p>
+                            <p class="text-purple-900 font-bold text-xl">${data.summary.total_rows}</p>
+                        </div>
+                        <div>
+                            <p class="text-purple-600">Successful:</p>
+                            <p class="text-purple-900 font-bold text-xl">${data.summary.successful}</p>
+                        </div>
+                        <div>
+                            <p class="text-purple-600">Failed:</p>
+                            <p class="text-purple-900 font-bold text-xl">${data.summary.failed}</p>
+                        </div>
+                    </div>
+                    <p class="text-purple-800 text-sm mt-2">Batch ID: <code class="bg-purple-200 px-2 py-1 rounded">${data.batch_id}</code></p>
+                </div>
+            `;
+
+            if (data.errors && data.errors.length > 0) {
+                const errorList = data.errors.map(e => 
+                    `<li class="text-xs">Row ${e.row || 'N/A'}: ${e.error || JSON.stringify(e)}</li>`
+                ).join('');
+
+                resultsContent.innerHTML += `
+                    <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded">
+                        <p class="text-red-700 font-semibold mb-2 text-sm">✗ Errors (showing first 10):</p>
+                        <ul class="list-disc list-inside text-red-600 space-y-1 max-h-48 overflow-y-auto">
+                            ${errorList}
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        // IMPORT HISTORY FUNCTIONS
+        async function loadImportHistory() {
+            document.getElementById('importHistorySection').classList.remove('hidden');
+            document.getElementById('ledgerUploadFormSection').classList.add('hidden');
+            
+            const token = localStorage.getItem('authToken');
+            const loadingDiv = document.getElementById('loadingImportHistory');
+            const historyList = document.getElementById('importHistoryList');
+
+            loadingDiv.classList.remove('hidden');
+
+            try {
+                const response = await fetch(`${API_URL}/users/ledger_imports/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const imports = await response.json();
+                    displayImportHistory(imports);
+                } else {
+                    historyList.innerHTML = '<p class="text-red-600 text-center py-4">Failed to load import history</p>';
+                }
+            } catch (error) {
+                historyList.innerHTML = '<p class="text-red-600 text-center py-4">Error loading import history</p>';
+                console.error('Import history error:', error);
+            } finally {
+                loadingDiv.classList.add('hidden');
+            }
+        }
+
+        function displayImportHistory(imports) {
+            const historyList = document.getElementById('importHistoryList');
+
+            if (imports.length === 0) {
+                historyList.innerHTML = '<p class="text-gray-600 text-center py-8">No import history found</p>';
+                return;
+            }
+
+            historyList.innerHTML = imports.map(imp => {
+                const statusColor = imp.status === 'COMPLETED' ? 'green' : 
+                                  imp.status === 'PARTIAL' ? 'yellow' : 'red';
+                
+                const date = new Date(imp.created_at);
+                const formattedDate = date.toLocaleDateString('en-NG', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                return `
+                    <div class="bg-gray-50 border-l-4 border-${statusColor}-500 rounded-lg p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex-1">
+                                <p class="font-semibold text-gray-900">${imp.filename}</p>
+                                <p class="text-sm text-gray-600">Uploaded by: ${imp.uploaded_by}</p>
+                                <p class="text-xs text-gray-500 mt-1">${formattedDate}</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-${statusColor}-100 text-${statusColor}-700">
+                                ${imp.status}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 mt-3 text-sm">
+                            <div class="bg-white rounded p-2">
+                                <p class="text-gray-600">Total:</p>
+                                <p class="font-bold text-gray-900">${imp.total_rows}</p>
+                            </div>
+                            <div class="bg-white rounded p-2">
+                                <p class="text-gray-600">Success:</p>
+                                <p class="font-bold text-green-600">${imp.successful}</p>
+                            </div>
+                            <div class="bg-white rounded p-2">
+                                <p class="text-gray-600">Failed:</p>
+                                <p class="font-bold text-red-600">${imp.failed}</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Batch: <code class="bg-gray-200 px-1 rounded">${imp.batch_id}</code></p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function hideImportHistory() {
+            document.getElementById('importHistorySection').classList.add('hidden');
+        }
+
+
+
+        function hideUploadForm() {
+            document.getElementById('uploadFormSection').classList.add('hidden');
+            document.getElementById('uploadForm').reset();
+        }
+
+        async function uploadFile(e) {
+            e.preventDefault();
+            
+            const token = localStorage.getItem('authToken');
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showMessage('error', 'Please select a file');
+                return;
+            }
+
+            const fileName = file.name.toLowerCase();
+            if (!fileName.endsWith('.csv') && !fileName.endsWith('.xlsx')) {
+                showMessage('error', 'Please upload a valid CSV or Excel file');
+                return;
+            }
+
+            const uploadBtn = document.getElementById('uploadBtn');
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            
+            uploadBtn.disabled = true;
+            btnText.textContent = 'Uploading...';
+            btnSpinner.classList.remove('hidden');
+            
+            document.getElementById('resultsSection').classList.add('hidden');
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const response = await fetch(`${API_URL}/users/upload_csv/`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    displayResults(data);
+                    showMessage('success', `Successfully processed ${data.total_processed} record(s)!`);
+                    fileInput.value = '';
+                    loadAllUsers();
+                } else {
+                    showMessage('error', data.error || 'Failed to process file');
+                }
+
+            } catch (error) {
+                showMessage('error', 'Network error. Please check if the server is running.');
+                console.error('Upload error:', error);
+            } finally {
+                uploadBtn.disabled = false;
+                btnText.textContent = '📤 Upload and Import';
+                btnSpinner.classList.add('hidden');
+            }
+        }
+
+        function displayResults(data) {
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsContent = document.getElementById('resultsContent');
+            
+            resultsSection.classList.remove('hidden');
+            resultsContent.innerHTML = '';
+
+            resultsContent.innerHTML += `
+                <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded">
+                    <p class="text-blue-900 font-semibold mb-2">📈 Summary</p>
+                    <div class="grid grid-cols-3 gap-3 text-sm">
+                        <div>
+                            <p class="text-blue-600">Created:</p>
+                            <p class="text-blue-900 font-bold text-xl">${data.created}</p>
+                        </div>
+                        <div>
+                            <p class="text-blue-600">Updated:</p>
+                            <p class="text-blue-900 font-bold text-xl">${data.updated}</p>
+                        </div>
+                        <div>
+                            <p class="text-blue-600">Errors:</p>
+                            <p class="text-blue-900 font-bold text-xl">${data.total_errors}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            if (data.created > 0) {
+                resultsContent.innerHTML += `
+                    <div class="bg-green-50 border-l-4 border-green-500 p-3 rounded">
+                        <p class="text-green-700 font-semibold text-sm">✓ Created ${data.created} new user(s)</p>
+                    </div>
+                `;
+            }
+
+            if (data.updated > 0) {
+                resultsContent.innerHTML += `
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-3 rounded">
+                        <p class="text-blue-700 font-semibold text-sm">↻ Updated ${data.updated} existing user(s)</p>
+                    </div>
+                `;
+            }
+
+            if (data.errors && data.errors.length > 0) {
+                const errorList = data.errors.slice(0, 3).map(e => {
+                    const errorMsg = typeof e.errors === 'string' ? e.errors : JSON.stringify(e.errors);
+                    return `<li class="text-xs">Row ${e.row}: ${errorMsg.substring(0, 100)}...</li>`;
+                }).join('');
+
+                resultsContent.innerHTML += `
+                    <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded">
+                        <p class="text-red-700 font-semibold mb-2 text-sm">✗ ${data.errors.length} error(s):</p>
+                        <ul class="list-disc list-inside text-red-600 space-y-1">
+                            ${errorList}
+                            ${data.errors.length > 3 ? `<li class="text-xs">... and ${data.errors.length - 3} more</li>` : ''}
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userSurname');
+            localStorage.removeItem('userFirstName');
+            localStorage.removeItem('userEmail');
+            window.location.href = 'index.html';
+        }
+
+        // Utility function to show messages
+        function showMessage(type, text) {
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+
+            if (type === 'success') {
+                document.getElementById('successText').textContent = text;
+                successMsg.classList.remove('hidden');
+                setTimeout(() => successMsg.classList.add('hidden'), 4000);
+            } else {
+                document.getElementById('errorText').textContent = text;
+                errorMsg.classList.remove('hidden');
+                setTimeout(() => errorMsg.classList.add('hidden'), 6000);
+            }
+        }
+    </script>
+</body>
+</html>
+

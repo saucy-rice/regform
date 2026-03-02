@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Authentication</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-blue-600 mb-2">User Management System</h1>
+            <p class="text-gray-600 text-lg">Secure access to your account</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="max-w-2xl mx-auto">
+            <!-- Toggle Buttons -->
+            <div class="flex gap-4 mb-6 bg-gray-100 p-2 rounded-lg">
+                <button 
+                    id="loginTab" 
+                    onclick="showLogin()" 
+                    class="flex-1 px-6 py-3 rounded-lg font-semibold transition bg-blue-600 text-white"
+                >
+                    Login
+                </button>
+                <button 
+                    id="registerTab" 
+                    onclick="showRegister()" 
+                    class="flex-1 px-6 py-3 rounded-lg font-semibold transition text-gray-600 hover:bg-gray-200"
+                >
+                    Register
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginSection" class="bg-white border-2 border-blue-600 rounded-lg shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-blue-600 mb-6">Login to Your Account</h2>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Email Address (Required) *</label>
+                            <input 
+                                type="email" 
+                                id="loginEmail" 
+                                name="email" 
+                                required
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                                placeholder="user@example.com"
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">NIN (Required) *</label>
+                            <input 
+                                type="text" 
+                                id="loginNIN" 
+                                name="nin" 
+                                required 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                                placeholder="Enter your NIN"
+                            >
+                        </div>
+                        <div class="bg-blue-50 border-l-4 border-blue-600 p-3 text-sm text-gray-700">
+                            <p>💡 <strong>Tip:</strong> You can login with just your NIN, or use both email and NIN for added security.</p>
+                        </div>
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition text-lg mt-6 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        id="loginBtn"
+                    >
+                        Login
+                    </button>
+                </form>
+            </div>
+
+            <!-- Registration Form -->
+            <div id="registerSection" class="hidden bg-white border-2 border-blue-600 rounded-lg shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-blue-600 mb-6">Create New Account</h2>
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <!-- Personal Information -->
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-blue-600 mb-4 pb-2 border-b-2 border-blue-200">Personal Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Surname *</label>
+                                <input 
+                                    type="text" 
+                                    name="surname" 
+                                    required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                                >
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">First Name *</label>
+                                <input 
+                                    type="text" 
+                                    name="first_name" 
+                                    required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                                >
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Middle Name</label>
+                                <input 
+                                    type="text" 
+                                    name="middle_name" 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                                >
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Email Address *</label>
+                                <input 
+                                    type="email" 
+                                    name="email_address" 
+                                    required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                                >
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Phone Number *</label>
+                                <input 
+                                    type="tel" 
+                                    name="phone_number" 
+                                    required 
+                                    placeholder="+2348012345678" 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                                >
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">NIN *</label>
+                                <input 
+                                    type="text" 
+                                    name="nin" 
+                                    required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                                >
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="block text-gray-700 font-medium mb-2">House Address *</label>
+                            <textarea 
+                                name="house_address" 
+                                required 
+                                rows="2" 
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Bank Information -->
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-blue-600 mb-4 pb-2 border-b-2 border-blue-200">Bank Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Account Number *</label>
+                                <input 
+                                    type="text" 
+                                    name="account_number" 
+                                    required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                                >
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Bank Name *</label>
+                                <input 
+                                    type="text" 
+                                    name="bank_name" 
+                                    required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next of Kin Information -->
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-blue-600 mb-4 pb-2 border-b-2 border-blue-200">Next of Kin Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Next of Kin Name *</label>
+                                <input 
+                                    type="text" 
+                                    name="next_of_kin_name" 
+                                    required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                                >
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Next of Kin Phone *</label>
+                                <input 
+                                    type="tel" 
+                                    name="next_of_kin_phone" 
+                                    required 
+                                    placeholder="+2348012345678" 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                                >
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="block text-gray-700 font-medium mb-2">Next of Kin Address *</label>
+                            <textarea 
+                                name="next_of_kin_address" 
+                                required 
+                                rows="2" 
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                            ></textarea>
+                        </div>
+                        <div class="mt-4">
+                            <label class="block text-gray-700 font-medium mb-2">Next of Kin Account Details</label>
+                            <input 
+                                type="text" 
+                                name="next_of_kin_account_details" 
+                                placeholder="Account number and bank name" 
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                            >
+                        </div>
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition text-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        id="registerBtn"
+                    >
+                        Create Account
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="hidden fixed top-4 right-4 bg-white text-blue-600 px-6 py-4 rounded-lg shadow-lg border-2 border-blue-600 z-50 max-w-md">
+            <p class="font-semibold">✓ <span id="successText">Success!</span></p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="hidden fixed top-4 right-4 bg-white text-red-600 px-6 py-4 rounded-lg shadow-lg border-2 border-red-600 z-50 max-w-md">
+            <p class="font-semibold">✗ <span id="errorText">An error occurred</span></p>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://reg-form-4j2e.onrender.com/api/';
+
+        // Tab switching functions
+        function showLogin() {
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('loginTab').classList.add('bg-blue-600', 'text-white');
+            document.getElementById('loginTab').classList.remove('text-gray-600', 'hover:bg-gray-200');
+            document.getElementById('registerTab').classList.remove('bg-blue-600', 'text-white');
+            document.getElementById('registerTab').classList.add('text-gray-600', 'hover:bg-gray-200');
+        }
+
+        function showRegister() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.remove('hidden');
+            document.getElementById('registerTab').classList.add('bg-blue-600', 'text-white');
+            document.getElementById('registerTab').classList.remove('text-gray-600', 'hover:bg-gray-200');
+            document.getElementById('loginTab').classList.remove('bg-blue-600', 'text-white');
+            document.getElementById('loginTab').classList.add('text-gray-600', 'hover:bg-gray-200');
+        }
+
+        // Login handler
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            btn.textContent = 'Logging in...';
+
+            const email = document.getElementById('loginEmail').value.trim();
+            const nin = document.getElementById('loginNIN').value.trim();
+
+            // Build the login payload - include email only if provided
+            const loginData = { nin };
+            if (email) {
+                loginData.email = email;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/login/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(loginData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store the token and user info in localStorage
+                    localStorage.setItem('authToken', data.access);
+                    localStorage.setItem('userId', data.user_id);
+                    localStorage.setItem('userSurname', data.surname);
+                    localStorage.setItem('userFirstName', data.first_name);
+                    localStorage.setItem('userEmail', data.email);
+                    
+                    showMessage('success', 'Login successful! Redirecting...');
+                    
+                    // Redirect to profile page after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'profile.html';
+                    }, 1000);
+                } else {
+                    showMessage('error', data.error || 'Invalid credentials');
+                    btn.disabled = false;
+                    btn.textContent = 'Login';
+                }
+            } catch (error) {
+                showMessage('error', 'Network error. Please check if the server is running.');
+                btn.disabled = false;
+                btn.textContent = 'Login';
+                console.error('Login error:', error);
+            }
+        }
+
+        // Registration handler
+        async function handleRegister(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('registerBtn');
+            btn.disabled = true;
+            btn.textContent = 'Creating account...';
+
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch(`${API_URL}/users/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    showMessage('success', 'Account created successfully! Please login.');
+                    e.target.reset();
+                    
+                    // Switch to login tab after successful registration
+                    setTimeout(() => {
+                        showLogin();
+                        // Pre-fill the NIN in login form
+                        document.getElementById('loginNIN').value = data.nin;
+                    }, 1500);
+                } else {
+                    const error = await response.json();
+                    showMessage('error', JSON.stringify(error));
+                }
+            } catch (error) {
+                showMessage('error', 'Network error. Please check if the server is running.');
+                console.error('Registration error:', error);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Create Account';
+            }
+        }
+
+        // Utility function to show messages
+        function showMessage(type, text) {
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+
+            if (type === 'success') {
+                document.getElementById('successText').textContent = text;
+                successMsg.classList.remove('hidden');
+                setTimeout(() => successMsg.classList.add('hidden'), 4000);
+            } else {
+                document.getElementById('errorText').textContent = text;
+                errorMsg.classList.remove('hidden');
+                setTimeout(() => errorMsg.classList.add('hidden'), 6000);
+            }
+        }
+
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                // User is already logged in, redirect to profile
+                window.location.href = 'profile.html';
+            }
+        });
+    </script>
+</body>
+</html>
