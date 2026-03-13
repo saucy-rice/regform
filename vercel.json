@@ -4,11 +4,6 @@
       "source": "/admin",
       "destination": "https://reg-form-4j2e.onrender.com/admin/",
       "permanent": true
-    },
-    {
-      "source": "/:path*",
-      "destination": "/portal/auth",
-      "permanent": false
     }
   ],
   "rewrites": [
@@ -19,6 +14,10 @@
     {
       "source": "/portal/dashboard",
       "destination": "/profile.html"
+    },
+    {
+      "source": "/portal/:path*",
+      "destination": "/index.html"
     }
   ]
 }
