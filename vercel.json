@@ -8,7 +8,7 @@
   ],
   "rewrites": [
     {
-      "source": "/portal/Auth",
+      "source": "/portal/auth",
       "destination": "/index.html"
     },
     {
